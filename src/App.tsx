@@ -5,13 +5,20 @@ import Button from '@material-ui/core/Button'
 
 
 
+interface OutputValues {
+  percentage: String;
+  winningValue: number;
+  EV: number;
+}
+
+
 
 
 interface AppProps {}
 interface AppState {
   count: number;
   values: string[];
-  outputValues: string[];
+  outputValues: OutputValues[];
   vig: number;
 }
 
@@ -70,7 +77,7 @@ class App extends React.Component<AppProps, AppState> {
   }
 
   calculateOdds = () => {
-    const outputValues: string[] = [];
+    const outputValues: OutputValues[] = [];
     const numericOutputValues: number[] = [];
 
     let vig = 0;
@@ -89,10 +96,22 @@ class App extends React.Component<AppProps, AppState> {
     })
 
     numericOutputValues.forEach((value, index) => {
+      console.log(value);
       const vigRemovedValue = value / vig * 100;
       let result = vigRemovedValue.toString();
+      let winningValue;
+      if(parseInt(this.state.values[index] ) > 0 ){
+        winningValue = 5 * parseInt(this.state.values[index]) / 100 + 5 
+      } else {
+        winningValue = 500 / parseInt(this.state.values[index]) * -1 + 5
+      }
       result = result + '%';
-      outputValues[index] = result;
+      outputValues[index]  = {
+        winningValue,
+        percentage: result, 
+        EV:  5 / (vigRemovedValue / 100) 
+      };
+ 
 
 
     })
@@ -131,7 +150,7 @@ class App extends React.Component<AppProps, AppState> {
           <Grid item xs={4}>
             <h1>Output</h1>
             {this.state.outputValues.map((value, index) => {
-              return <div key={index}>{value}</div>
+              return <div key={index}>{value.percentage} {value.winningValue} {value.EV}</div>
             })}
           </Grid>
         </Grid>
