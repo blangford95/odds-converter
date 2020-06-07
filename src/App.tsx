@@ -101,15 +101,15 @@ class App extends React.Component<AppProps, AppState> {
       let result = vigRemovedValue.toString();
       let winningValue;
       if(parseInt(this.state.values[index] ) > 0 ){
-        winningValue = 5 * parseInt(this.state.values[index]) / 100 + 5 
+        winningValue = 1 * parseInt(this.state.values[index]) / 100 + 1
       } else {
-        winningValue = 500 / parseInt(this.state.values[index]) * -1 + 5
+        winningValue = 100 / parseInt(this.state.values[index]) * -1 + 1
       }
       result = result + '%';
       outputValues[index]  = {
         winningValue,
         percentage: result, 
-        EV:  5 / (vigRemovedValue / 100) 
+        EV:  1 / (vigRemovedValue / 100) 
       };
  
 
